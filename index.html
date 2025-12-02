@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Awareness Crash Course</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. Variables & Global Reset --- */
+        :root {
+            --color-primary: #3b82f6; /* Soft Blue */
+            --color-primary-dark: #2563eb;
+            --color-text-dark: #1f2937;
+            --color-text-light: #f9fafb;
+            --color-background-light: #ffffff;
+            --color-background-grey: #f3f4f6;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --border-radius: 0.5rem;
+            --spacing-unit: 1rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background-color: var(--color-background-light);
+            scroll-behavior: smooth;
+        }
+
+        /* --- 2. Utility Classes --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: calc(2 * var(--spacing-unit));
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* --- 3. Buttons & Links --- */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            font-size: 1rem;
+            margin: 0.5rem 0.5rem 0.5rem 0; /* Ensures spacing between buttons */
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--color-primary-dark);
+            box-shadow: 0 4px 10px var(--color-shadow);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .btn-secondary:hover, .btn-secondary:focus {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            box-shadow: 0 4px 10px var(--color-shadow);
+        }
+        
+        /* Specific button for the Playlist Card */
+        .btn-subscribe {
+            background-color: #ff0000; /* YouTube Red */
+            border-color: #ff0000;
+            color: var(--color-text-light);
+        }
+
+        .btn-subscribe:hover, .btn-subscribe:focus {
+            background-color: #cc0000;
+        }
+
+        /* --- 4. Header & Navigation (Simple structure for a landing page) --- */
+        header {
+            background-color: var(--color-background-light);
+            padding: var(--spacing-unit) 0;
+            border-bottom: 1px solid var(--color-background-grey);
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+        }
+
+        /* --- 5. Hero Section --- */
+        #hero {
+            background-color: var(--color-background-grey);
+            padding: 4rem 0;
+            opacity: 0; /* For fade-in animation */
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        #hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        #hero p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            margin-bottom: 2rem;
+            color: #4b5563;
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media (min-width: 600px) {
+            .hero-cta {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        /* --- 6. Introduction Section --- */
+        #intro {
+            padding: 3rem 0;
+        }
+
+        #intro h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary-dark);
+            font-weight: 600;
+        }
+
+        /* --- 7. Module Grid --- */
+        #modules {
+            background-color: var(--color-background-light);
+            padding: 3rem 0;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .module-card {
+            background-color: var(--color-background-grey);
+            padding: var(--spacing-unit);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 5px var(--color-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px); /* Hover lift */
+            box-shadow: 0 8px 20px var(--color-shadow);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-unit);
+        }
+
+        .module-thumb {
+            width: 80px;
+            height: 50px;
+            background-color: #d1d5db; /* Placeholder grey */
+            border-radius: 4px;
+            margin-right: var(--spacing-unit);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .module-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .module-title-box {
+            flex-grow: 1;
+        }
+
+        .module-title-box h3 {
+            font-size: 1.15rem;
+            margin: 0;
+            color: var(--color-primary-dark);
+        }
+
+        .module-card p {
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-unit);
+            flex-grow: 1; /* Pushes button row to the bottom */
+        }
+
+        .module-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .module-links .btn {
+            flex: 1;
+            padding: 0.6rem 0.5rem;
+            font-size: 0.85rem;
+            text-align: center;
+            margin: 0; /* Override the default button margin */
+        }
+
+        /* --- 8. Playlist Card Section --- */
+        #playlist-promo {
+            padding: 3rem 0;
+        }
+        
+        .playlist-card {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .playlist-card h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .playlist-card p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .playlist-card .btn {
+            margin: 0 0.5rem;
+        }
+        
+        /* --- 9. Footer --- */
+        footer {
+            background-color: var(--color-text-dark);
+            color: #d1d5db;
+            padding: 2rem 0;
+            font-size: 0.9rem;
+            border-top: 5px solid var(--color-primary);
+        }
+
+        footer a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            margin: 0 0.5rem;
+        }
+
+        footer a:hover, footer a:focus {
+            color: var(--color-background-light);
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .footer-links > div {
+            margin-top: 0.5rem;
+        }
+
+        @media (min-width: 600px) {
+            .footer-links {
+                flex-direction: row;
+                justify-content: center;
+            }
+            .footer-links > div {
+                margin: 0 1rem;
+            }
+        }
+
+        /* --- 10. Keyframe Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">🧠 AI Course</div>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container text-center">
+            <h1>AI Awareness Crash Course</h1>
+            <p>Get a fast, practical understanding of AI fundamentals and its impact on your job, regardless of your role.</p>
+            <div class="hero-cta">
+                <a href="#link-to-full-pdf-file" class="btn btn-primary">
+                    Open Short Course (PDF)
+                </a>
+                <a href="#link-to-full-youtube-playlist" class="btn btn-secondary">
+                    Full YouTube Playlist
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="intro">
+        <div class="container">
+            <h2 class="text-center">Who Is This Course For?</h2>
+            <p class="text-center">
+                The AI revolution affects **everyone**. This crash course provides concise, jargon-free knowledge for **developers** to grasp strategic context, **marketers/sales** to identify opportunities, and **HR/office teams** to understand new tooling and ethics. In just 10 modules, you'll be equipped to engage confidently with the future of work.
+            </p>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="modules">
+        <div class="container">
+            <h2 class="text-center">🚀 The 10 Essential Modules</h2>
+            <div class="module-grid">
+                
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M1" alt="Thumbnail for Module 1: AI Foundations">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 1: What is AI?</h3>
+                        </div>
+                    </div>
+                    <p>The core concepts: what AI means in simple words, its benefits, limitations, and real-life examples everywhere.</p>
+                    <div class="module-links">
+                        <a href="#link-to-M1-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M1-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M2" alt="Thumbnail for Module 2: History & Evolution">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 2: History & Evolution</h3>
+                        </div>
+                    </div>
+                    <p>Understanding the major milestones, from early ideas to the recent explosion of modern AI technology.</p>
+                    <div class="module-links">
+                        <a href="#link-to-M2-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M2-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+                
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M3" alt="Thumbnail for Module 3: Types of Software">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 3: Software vs. AI Types</h3>
+                        </div>
+                    </div>
+                    <p>Comparison of Normal Software, Traditional AI, Generative AI, and the emerging Agentic AI.</p>
+                    <div class="module-links">
+                        <a href="#link-to-M3-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M3-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M4" alt="Thumbnail for Module 4: Current AI Models">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 4: Current AI Models (2025)</h3>
+                        </div>
+                    </div>
+                    <p>A look at the latest major models for Text, Image, Video, Audio, and Code in simple terms.</p>
+                    <div class="module-links">
+                        <a href="#link-to-M4-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M4-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M5" alt="Thumbnail for Module 5: ML, DL, NLP">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 5: ML, DL, and NLP Explained</h3>
+                        </div>
+                    </div>
+                    <p>Deep dive into Machine Learning, Deep Learning, and Natural Language Processing with easy examples.</p>
+                    <div class="module-links">
+                        <a href="#link-to-M5-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M5-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M6" alt="Thumbnail for Module 6: Transformers">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 6: The Transformers Model</h3>
+                        </div>
+                    </div>
+                    <p>The technology behind modern AI: simple explanation of 'attention' and how it changed everything.</p>
+                    <div class="module-links">
+                        <a href="#link-to-M6-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M6-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+                
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M7" alt="Thumbnail for Module 7: LLMs">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 7: How LLMs Really Work</h3>
+                        </div>
+                    </div>
+                    <p>Explaining Large Language Models: parameters, tokens, RAG, and why they sometimes "hallucinate."</p>
+                    <div class="module-links">
+                        <a href="#link-to-M7-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M7-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+                
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M8" alt="Thumbnail for Module 8: Code vs No-Code">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 8: AI with Code & No-Code</h3>
+                        </div>
+                    </div>
+                    <p>Practical guide on using AI via no-code tools (Zapier) versus coding with APIs (Python).</p>
+                    <div class="module-links">
+                        <a href="#link-to-M8-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M8-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+                
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M9" alt="Thumbnail for Module 9: Office Use Cases">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 9: AI for Every Office Team</h3>
+                        </div>
+                    </div>
+                    <p>10+ practical, team-specific use cases for Developers, Marketing, Sales, HR, and Support.</p>
+                    <div class="module-links">
+                        <a href="PDF\M9.pdf" class="btn btn-secondary">Module PDF</a>
+                    
+                  <a href="#link-to-M9-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+                
+                <div class="module-card" tabindex="0">
+                    <div class="module-header">
+                        <div class="module-thumb">
+                            <img src="https://via.placeholder.com/80x50?text=M10" alt="Thumbnail for Module 10: Prompt Engineering">
+                        </div>
+                        <div class="module-title-box">
+                            <h3>Module 10: Prompting & AI Safety</h3>
+                        </div>
+                    </div>
+                    <p>A guide to structuring perfect prompts, plus essential rules for privacy and security when using AI.</p>
+                    <div class="module-links">
+                        <a href="#link-to-M10-pdf" class="btn btn-secondary">Module PDF</a>
+                        <a href="#link-to-M10-youtube" class="btn btn-primary">Watch on YouTube</a>
+                    </div>
+                </div>
+
+                </div>
+        </div>
+    </section>
+
+    <section id="playlist-promo">
+        <div class="container">
+            <div class="playlist-card">
+                <h2>Prefer a Continuous Stream?</h2>
+                <p>Access the entire course, including bonus Q&A sessions, in one comprehensive playlist on YouTube.</p>
+                <div class="hero-cta">
+                    <a href="#link-to-full-youtube-playlist" class="btn btn-secondary">
+                        Watch Full Playlist Now
+                    </a>
+                    <a href="#link-to-youtube-channel-subscribe" class="btn btn-subscribe" target="_blank">
+                        Subscribe for Updates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2025 AI Awareness Crash Course | All Rights Reserved.</p>
+            <div class="footer-links">
+                <div>
+                    Contact: <a href="mailto:contact@placeholderai.com">contact@placeholderai.com</a>
+                </div>
+                <div>
+                    <a href="#link-to-full-pdf-file">Download Full PDF</a>
+                    <a href="#link-to-creator-company-page">Our Company Page</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
