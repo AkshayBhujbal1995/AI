@@ -3,643 +3,841 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Awareness Crash Course | Pro Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>AI Awareness Crash Course | Premium Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        /* --- 1. Variables & Global Reset (Cyber/Tech Theme) --- */
         :root {
-            /* Neon Cyan/Aqua - Highlighting and Energy */
-            --color-primary: #00e5ff; 
-            /* Deep Space Blue - Background and Structure */
-            --color-secondary: #0d1b32; 
-            /* Dark Navy/Almost Black - Main Text and Darker Contrast */
-            --color-text-dark: #f0f8ff; 
-            /* Off-White/Light Text on Dark Backgrounds */
-            --color-text-light: #f1f5f9; 
-            /* True Black/Primary Background */
-            --color-background-main: #0a111f; 
-            /* Subtle Darker Gray for alternating sections */
-            --color-background-section: #10213f; 
-            --color-card-background: #193056; /* Slightly lighter card background */
-            --color-shadow: rgba(0, 229, 255, 0.4); /* Primary color shadow */
-            --border-radius: 0.75rem;
-            --spacing-unit: 1rem;
+            --primary: #00f5ff;
+            --secondary: #ff0080;
+            --accent: #7000ff;
+            --dark: #0a0118;
+            --darker: #050010;
+            --card-bg: rgba(20, 5, 40, 0.7);
+            --text: #e0e6ff;
+            --text-dim: #a0a8c0;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Animated Background for Body */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
             line-height: 1.6;
-            color: var(--color-text-light); /* Light text on dark background */
-            background-color: var(--color-background-main);
-            scroll-behavior: smooth;
-            /* Animated background implementation */
-            background: linear-gradient(-45deg, #0a111f, #10213f, #0d1b32, #001f3f);
-            background-size: 400% 400%;
-            animation: GradientBG 15s ease infinite;
         }
 
-        /* Keyframe for subtle movement */
-        @keyframes GradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(125deg, #0a0118 0%, #1a0530 50%, #0a0118 100%);
+            overflow: hidden;
         }
 
-        /* --- 2. Utility Classes & Structure --- */
-        .container {
-            max-width: 1200px;
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(112, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 245, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-5%, -5%) rotate(5deg); }
+            66% { transform: translate(5%, 5%) rotate(-5deg); }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridScroll 20s linear infinite;
+        }
+
+        @keyframes gridScroll {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(10, 1, 24, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+            z-index: 1000;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header-content {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: calc(2 * var(--spacing-unit));
+            padding: 0 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .text-center {
-            text-align: center;
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5));
         }
 
-        h1, h2, h3 {
-            font-weight: 700;
-        }
-        
-        /* Highlight text with primary color */
-        .highlight {
-            color: var(--color-primary);
-            text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
-        }
-
-        /* --- 3. Buttons & Links --- */
-        .btn {
-            display: inline-flex;
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-            font-size: 0.95rem;
-            margin: 0.5rem 0.5rem 0.5rem 0;
-            gap: 0.5rem;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
         }
 
-        /* Primary button: Solid color with a glow */
-        .btn-primary {
-            background-color: var(--color-primary);
-            color: var(--color-secondary); /* Dark text on bright button */
-            border-color: var(--color-primary);
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
         }
 
-        .btn-primary:hover, .btn-primary:focus {
-            background-color: var(--color-primary);
-            border-color: var(--color-primary);
-            color: var(--color-secondary);
-            box-shadow: 0 0 15px var(--color-shadow); /* Stronger glow */
-            transform: translateY(-2px);
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Secondary button: Outline with primary color */
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--color-primary);
-            border-color: var(--color-primary);
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlow 3s ease-in-out infinite;
         }
 
-        .btn-secondary:hover, .btn-secondary:focus {
-            background-color: var(--color-primary);
-            color: var(--color-secondary);
-            box-shadow: 0 4px 8px var(--color-shadow);
-        }
-        
-        /* Quiz Button Style (Gradient with High Visibility) */
-        .btn-quiz {
-            background: linear-gradient(90deg, #3f51b5 0%, var(--color-primary) 100%); 
-            color: var(--color-text-light);
-            font-size: 1.25rem;
-            padding: 1rem 2.5rem;
-            margin-top: 3rem;
-            box-shadow: 0 8px 25px rgba(0, 229, 255, 0.4);
-            border: none;
+        @keyframes textGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 0, 128, 0.6)); }
         }
 
-        .btn-quiz:hover {
-            opacity: 0.9;
-            transform: scale(1.03) translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0, 229, 255, 0.8);
-        }
-
-
-        /* --- 4. Header & Navigation --- */
-        header {
-            background-color: rgba(13, 27, 50, 0.95); /* Semi-transparent secondary color */
-            backdrop-filter: blur(5px);
-            color: var(--color-text-light);
-            padding: var(--spacing-unit) 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        header .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        /* --- 5. Hero Section (High Impact) --- */
-        #hero {
-            background: none; /* Relying on body gradient now */
-            color: var(--color-text-light);
-            padding: 8rem 0 6rem 0; /* More vertical space */
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        #hero h1 {
-            font-size: clamp(2.8rem, 7vw, 4.5rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--color-primary);
-            text-shadow: 0 0 20px var(--color-shadow); /* Bright primary color with intense glow */
-        }
-
-        #hero p {
-            font-size: clamp(1rem, 2.5vw, 1.35rem);
-            margin-bottom: 2.5rem;
-            color: #b0c4de; /* Lighter shade of blue-gray */
-        }
-
-        /* --- 6. Introduction Section --- */
-        #intro {
-            padding: 5rem 0 3rem 0;
-            background-color: var(--color-background-main); /* Match body background for seamless blend */
-        }
-
-        #intro h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--color-primary);
-            text-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
-        }
-        
-        .target-audience {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .audience-point {
-            background-color: var(--color-background-section);
-            padding: 1.5rem;
-            border-left: 5px solid var(--color-primary);
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            text-align: left;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .audience-point:hover {
-             box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); /* Subtle hover glow */
-        }
-
-        .audience-point strong {
-            color: var(--color-text-light);
-            font-weight: 700;
-        }
-
-        /* --- 7. Module Grid --- */
-        #modules {
-            background-color: var(--color-background-section); /* Alternating dark section background */
-            padding: 5rem 0;
-            border-top: 1px solid rgba(0, 229, 255, 0.1);
-        }
-
-        #modules h2 {
-            color: var(--color-text-light);
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-dim);
             margin-bottom: 3rem;
-            font-size: 2.5rem;
-            color: var(--color-primary);
+            line-height: 1.8;
         }
 
-        .module-grid {
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #000;
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 60px rgba(0, 245, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(255, 0, 128, 0.5);
+        }
+
+        .btn-info {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-info:hover {
+            background: var(--primary);
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.5);
+        }
+
+        .btn-video {
+            background: linear-gradient(135deg, #ff0080, #7000ff);
+            color: #fff;
+            box-shadow: 0 10px 40px rgba(255, 0, 128, 0.4);
+        }
+
+        .btn-video:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 60px rgba(255, 0, 128, 0.6);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Audience Cards */
+        .audience-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .audience-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(255, 0, 128, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .audience-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 245, 255, 0.3);
+        }
+
+        .audience-card:hover::before {
+            opacity: 1;
+        }
+
+        .audience-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .audience-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .audience-card p {
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
         .module-card {
-            background-color: var(--color-card-background);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(112, 0, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            border-top: 4px solid var(--color-secondary); /* Dark border for depth */
-            border-bottom: 4px solid var(--color-primary); /* Primary glow at bottom */
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 245, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .module-card:hover::before {
+            left: 100%;
         }
 
         .module-card:hover {
-            transform: translateY(-10px); /* Stronger lift */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 229, 255, 0.5); /* Lifted appearance with strong glow */
-            border-bottom-color: var(--color-primary);
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(112, 0, 255, 0.4);
         }
 
         .module-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 1rem;
-        }
-
-        .module-thumb {
-            width: 90px;
-            height: 60px;
-            background-color: #053b50; /* Darker cyan background */
-            border-radius: 6px;
-            margin-right: 1rem;
-            flex-shrink: 0;
-            overflow: hidden;
-            border: 1px solid var(--color-primary);
-        }
-
-        .module-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        
-        .module-card:hover .module-thumb img {
-            opacity: 1;
+            position: relative;
+            z-index: 1;
         }
 
         .module-title-box h3 {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             margin: 0;
-            color: var(--color-primary);
-            font-weight: 600;
+            color: #fff;
+            font-weight: 700;
         }
 
-        .module-card p {
-            font-size: 0.95rem;
+        .module-card > p {
+            color: var(--text-dim);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
             margin-bottom: 1.5rem;
-            color: #b0c4de;
             flex-grow: 1;
         }
 
         .module-links {
             display: flex;
-            justify-content: space-between;
-            gap: 0.75rem;
-            margin-top: auto; 
+            gap: 1rem;
+            margin-top: auto;
+            position: relative;
+            z-index: 1;
         }
 
         .module-links .btn {
             flex: 1;
-            padding: 0.75rem 0.5rem;
+            padding: 0.75rem 1rem;
             font-size: 0.9rem;
-        }
-        
-        /* Icon styles */
-        .fa-solid {
-            font-size: 1rem;
-        }
-
-        /* --- 8. Quiz CTA Section --- */
-        #quiz-cta {
-            padding: 6rem 0;
-            background-color: var(--color-background-main);
-            text-align: center;
-            border-top: 1px solid rgba(0, 229, 255, 0.1);
-        }
-        
-        #quiz-cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--color-text-light);
-        }
-        
-        #quiz-cta p {
-            font-size: 1.1rem;
-            color: #b0c4de;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* --- 9. Footer (Minimalist) --- */
-        footer {
-            background-color: var(--color-secondary);
-            color: var(--color-text-light);
-            padding: 2rem 0;
-            font-size: 0.9rem;
-            border-top: 5px solid var(--color-primary);
-        }
-
-        footer .container {
-            display: flex;
             justify-content: center;
+        }
+
+        /* Quiz CTA */
+        .quiz-cta {
+            text-align: center;
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, rgba(112, 0, 255, 0.1), rgba(0, 245, 255, 0.1));
+            border-radius: 30px;
+            margin: 4rem 2rem;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+        }
+
+        .quiz-cta h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .quiz-cta p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-quiz {
+            padding: 1.5rem 3rem;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: #fff;
+            border-radius: 15px;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
-            flex-direction: column;
+            gap: 1rem;
+            font-weight: 700;
+            box-shadow: 0 15px 50px rgba(255, 0, 128, 0.5);
+            transition: all 0.4s ease;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-quiz:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 20px 70px rgba(255, 0, 128, 0.7);
+            animation: none;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(5, 0, 16, 0.9);
+            border-top: 1px solid rgba(0, 245, 255, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
         }
 
         .footer-logo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        
+
+        footer p {
+            color: var(--text-dim);
+            margin-top: 1rem;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
 
+    <!-- Header -->
     <header>
-        <div class="container">
+        <div class="header-content">
             <div class="logo">
-                <i class="fa-solid fa-microchip highlight"></i> AI Crash Course
+                <i class="fas fa-brain"></i>
+                <span>AI CRASH COURSE</span>
             </div>
         </div>
     </header>
 
-    <section id="hero">
-        <div class="container text-center">
-            <h1>The <span class="highlight">AI Awareness</span> Crash Course</h1>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The AI Awareness<br>Crash Course</h1>
             <p>Get a fast, practical, and future-proof understanding of AI fundamentals and its impact on your job, regardless of your role.</p>
-            <div class="hero-cta">
-                </div>
+            <div class="cta-buttons">
+                <a href="#modules" class="btn btn-primary">
+                    <i class="fas fa-graduation-cap"></i> View Modules
+                </a>
+                <a href="#quiz-cta" class="btn btn-secondary">
+                    <i class="fas fa-bolt"></i> Take The Quiz
+                </a>
+            </div>
         </div>
     </section>
 
-    <section id="intro">
-    <div class="container">
-        <h2 class="text-center">Who Will Benefit?</h2>
-        <p class="text-center" style="font-size: 1.1rem; color: #b0c4de; max-width: 800px; margin: 0 auto;">
-            The AI revolution affects <Strong class="highlight">every professional</Strong>. This course delivers concise, jargon-free knowledge to help various teams engage confidently with the future of work.
+    <!-- Audience Section -->
+    <section id="audience" class="fade-in">
+        <h2 class="section-title">Who Will Benefit?</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; font-size: 1.2rem; color: var(--text-dim);">
+            The AI revolution affects every professional. This course delivers concise, jargon-free knowledge to help various teams engage confidently with the future of work.
         </p>
-        <div class="target-audience">
-            <div class="audience-point">
-                <i class="fa-solid fa-code highlight"></i> 
-                <strong> Developers / Engineers:</strong> Grasp the strategic context, understand tool integration, and how AI impacts system architecture.
+        <div class="audience-grid">
+            <div class="audience-card fade-in">
+                <i class="fas fa-code"></i>
+                <h3>Developers & Engineers</h3>
+                <p>Grasp the strategic context, understand tool integration, and how AI impacts system architecture.</p>
             </div>
-            <div class="audience-point">
-                <i class="fa-solid fa-chart-line highlight"></i> 
-                <strong> Marketers / Sales Teams:</strong> Identify <Strong>new opportunities</Strong> for automation, personalization, content generation, and lead qualification.
+            <div class="audience-card fade-in">
+                <i class="fas fa-chart-line"></i>
+                <h3>Marketers & Sales Teams</h3>
+                <p>Identify new opportunities for automation, personalization, content generation, and lead qualification.</p>
             </div>
-            <div class="audience-point">
-                <i class="fa-solid fa-user-tie highlight"></i> 
-                <strong> HR / Management / Office Teams:</strong> Understand ethical considerations, data security, and the evolving nature of job roles and upskilling needs.
+            <div class="audience-card fade-in">
+                <i class="fas fa-users"></i>
+                <h3>HR & Management</h3>
+                <p>Understand ethical considerations, data security, and the evolving nature of job roles and upskilling needs.</p>
             </div>
-        </div>
-    </div>
-</section>
-
-    <section id="modules">
-        <div class="container">
-            <h2 class="text-center"><i class="fa-solid fa-brain highlight"></i> The 10 Essential Modules</h2>
-            <div class="module-grid">
-                
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M1.jpg" alt="Thumbnail for Module 1: AI Foundations">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>1. AI Foundations</h3>
-                        </div>
-                    </div>
-                    <p>The core concepts: what AI means in simple words, its benefits, limitations, and real-life examples everywhere.</p>
-                    <div class="module-links">
-                        <a href="PDF/M1.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1w1isnb1wnjUUTt0ngu-k8NZhr0PB7SVq/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M2.png" alt="Thumbnail for Module 2: History & Evolution">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>2. History & Evolution</h3>
-                        </div>
-                    </div>
-                    <p>Understanding the major milestones, from early ideas to the recent explosion of modern AI technology.</p>
-                    <div class="module-links">
-                        <a href="PDF/M2.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1Xv9cHO5gElBXlEl9iOhwFS04Xvr58PYS/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M3.png" alt="Thumbnail for Module 3: Types of Software">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>3. Software vs. AI Types</h3>
-                        </div>
-                    </div>
-                    <p>Comparison of Normal Software, Traditional AI, Generative AI, and the emerging Agentic AI landscape.</p>
-                    <div class="module-links">
-                        <a href="PDF/M3.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1qJ1rPzvDc8Le_z5NuSQyJs7-WIHG_PYS/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M4.png" alt="Thumbnail for Module 4: Current AI Models">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>4. Current AI Models</h3>
-                        </div>
-                    </div>
-                    <p>A look at the latest major models for Text, Image, Video, Audio, and Code in simple terms, focusing on real-world use.</p>
-                    <div class="module-links">
-                        <a href="PDF/M4.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1wv7dqOGEoC4KlQIUEgAV1H1PnPIEmRDm/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M5.png" alt="Thumbnail for Module 5: ML, DL, NLP">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>5. ML, DL, and NLP</h3>
-                        </div>
-                    </div>
-                    <p>Deep dive into Machine Learning, Deep Learning, and Natural Language Processing with easy-to-understand analogies and examples.</p>
-                    <div class="module-links">
-                        <a href="PDF/M5.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1PiG1d7Ji8li3eulhhjutEJ51mawnEDkD/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M6.png" alt="Thumbnail for Module 6: Transformers">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>6. The Transformers Model</h3>
-                        </div>
-                    </div>
-                    <p>The technology behind modern AI: simple explanation of the 'attention mechanism' and how it changed the foundation of AI development.</p>
-                    <div class="module-links">
-                        <a href="PDF/M6.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1yytRBBY9mmyZrUEUDDWHUEGyV5CCirBg/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M7.png" alt="Thumbnail for Module 7: LLMs">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>7. How LLMs Really Work</h3>
-                        </div>
-                    </div>
-                    <p>Explaining Large Language Models: parameters, tokens, RAG, and why they sometimes "hallucinate" in plain language.</p>
-                    <div class="module-links">
-                        <a href="PDF/M7.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1PwZqM8_1m8-Ppuwbtaoh4WBBVzy49cNU/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M8.png" alt="Thumbnail for Module 8: Code vs No-Code">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>8. Code vs. No-Code AI</h3>
-                        </div>
-                    </div>
-                    <p>Practical guide on integrating and using AI via no-code tools (like Zapier) versus technical coding with APIs (like Python).</p>
-                    <div class="module-links">
-                        <a href="PDF/M8.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/18ft4LZK6LQpZNBAZZE1DZzMOlVaD3pPn/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M9.png" alt="Thumbnail for Module 9: Office Use Cases">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>9. Office Team Use Cases</h3>
-                        </div>
-                    </div>
-                    <p>10+ practical, team-specific use cases for Developers, Marketing, Sales, HR, and Support to start implementing AI immediately.</p>
-                    <div class="module-links">
-                        <a href="PDF/M9.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/1Hr9N5bsrKMjrLcay5HKzSzggZs7nPkR4/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="module-card" tabindex="0">
-                    <div class="module-header">
-                        <div class="module-thumb">
-                            <img src="tb/M10.png" alt="Thumbnail for Module 10: Prompt Engineering">
-                        </div>
-                        <div class="module-title-box">
-                            <h3>10. Prompting & AI Safety</h3>
-                        </div>
-                    </div>
-                    <p>A guide to structuring perfect prompts, plus essential rules for privacy, ethics, and security when interacting with AI models.</p>
-                    <div class="module-links">
-                        <a href="PDF/M10.pdf" class="btn btn-secondary">
-                            <i class="fa-solid fa-file-pdf"></i> PDF
-                        </a>
-                        <a href="https://drive.google.com/file/d/119oOhYWNrplyWTFDKUenIP578pgEGx4j/view?usp=drive_link" class="btn btn-primary">
-                            <i class="fa-solid fa-play"></i> Watch Video
-                        </a>
-                    </div>
-                </div>
-
-                </div>
-        </div>
-    </section>
-    
-    <section id="quiz-cta">
-        <div class="container">
-            <h2><i class="fa-solid fa-clipboard-check highlight"></i> Test Your Knowledge</h2>
-            <p>Ready to confirm your mastery of the AI essentials? Click below to take the 10-question final quiz on the separate form.</p>
-            <a 
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdClluChs82pxnbrrgeCfp5rt9Rsp6Nlm4199-NBq3djlNNhQ/viewform" 
-                class="btn btn-quiz" 
-                target="_blank"
-            >
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Take the AI Knowledge Quiz
-            </a>
         </div>
     </section>
 
+    <!-- Modules Section -->
+    <section id="modules" class="fade-in">
+        <h2 class="section-title">The 10 Essential Modules</h2>
+        <div class="modules-grid">
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>1. AI Foundations</h3>
+                    </div>
+                </div>
+                <p>The core concepts, benefits, and limitations of AI.</p>
+                <div class="module-links">
+                    <a href="PDF/M1.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1w1isnb1wnjUUTt0ngu-k8NZhr0PB7SVq/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>2. History & Evolution</h3>
+                    </div>
+                </div>
+                <p>From early ideas to the modern AI explosion.</p>
+                <div class="module-links">
+                    <a href="PDF/M2.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1Xv9cHO5gElBXlEl9iOhwFS04Xvr58PYS/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>3. Software vs. AI Types</h3>
+                    </div>
+                </div>
+                <p>Software vs. Traditional AI vs. Generative AI.</p>
+                <div class="module-links">
+                    <a href="PDF/M3.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1qJ1rPzvDc8Le_z5NuSQyJs7-WIHG_PYS/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>4. Current AI Models</h3>
+                    </div>
+                </div>
+                <p>Latest major models for Text, Image, and Code.</p>
+                <div class="module-links">
+                    <a href="PDF/M4.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1wv7dqOGEoC4KlQIUEgAV1H1PnPIEmRDm/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>5. ML, DL, and NLP</h3>
+                    </div>
+                </div>
+                <p>Simplified explanation of the core technologies.</p>
+                <div class="module-links">
+                    <a href="PDF/M5.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1PiG1d7Ji8li3eulhhjutEJ51mawnEDkD/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>6. The Transformers Model</h3>
+                    </div>
+                </div>
+                <p>How the attention mechanism changed AI.</p>
+                <div class="module-links">
+                    <a href="PDF/M6.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1yytRBBY9mmyZrUEUDDWHUEGyV5CCirBg/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>7. How LLMs Really Work</h3>
+                    </div>
+                </div>
+                <p>Parameters, tokens, RAG, and hallucinations explained.</p>
+                <div class="module-links">
+                    <a href="PDF/M7.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1PwZqM8_1m8-Ppuwbtaoh4WBBVzy49cNU/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>8. Code vs. No-Code AI</h3>
+                    </div>
+                </div>
+                <p>Using AI via no-code tools versus technical coding.</p>
+                <div class="module-links">
+                    <a href="PDF/M8.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/18ft4LZK6LQpZNBAZZE1DZzMOlVaD3pPn/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>9. Office Team Use Cases</h3>
+                    </div>
+                </div>
+                <p>10+ practical use cases for different teams.</p>
+                <div class="module-links">
+                    <a href="PDF/M9.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/1Hr9N5bsrKMjrLcay5HKzSzggZs7nPkR4/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-header">
+                    <div class="module-title-box">
+                        <h3>10. Prompting & AI Safety</h3>
+                    </div>
+                </div>
+                <p>Perfect prompts plus privacy, ethics, and security.</p>
+                <div class="module-links">
+                    <a href="PDF/M10.pdf" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-book-open"></i> Study Material
+                    </a>
+                    <a href="https://drive.google.com/file/d/119oOhYWNrplyWTFDKUenIP578pgEGx4j/view?usp=drive_link" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> Watch Video
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz CTA -->
+    <section id="quiz-cta" class="quiz-cta fade-in">
+        <h2><i class="fas fa-trophy"></i> Test Your Knowledge</h2>
+        <p>Ready to confirm your mastery of the AI essentials? Take our comprehensive 10-question quiz and earn your certificate.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdClluChs82pxnbrrgeCfp5rt9Rsp6Nlm4199-NBq3djlNNhQ/viewform" class="btn-quiz" target="_blank">
+            <i class="fas fa-arrow-right"></i> Take the AI Knowledge Quiz
+        </a>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <div class="container text-center">
-            <div class="footer-logo">
-                <i class="fa-solid fa-robot highlight"></i> Future Ready
-            </div>
-            <p style="color: #6c7a97; margin-top: 0.5rem;">&copy; 2025 AI Awareness Crash Course. All Rights Reserved.</p>
+        <div class="footer-logo">
+            <i class="fas fa-robot"></i>
+            <span>FUTURE READY</span>
         </div>
+        <p>&copy; 2025 AI Awareness Crash Course. All Rights Reserved.</p>
     </footer>
 
+    <script>
+        // Particle system
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 3 + 1;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${left}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(el => observer.observe(el));
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Initialize
+        createParticles();
+        handleScrollAnimations();
+
+        // Module card interactions
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderColor = '#00f5ff';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.borderColor = 'rgba(112, 0, 255, 0.3)';
+            });
+        });
+    </script>
 </body>
 </html>
